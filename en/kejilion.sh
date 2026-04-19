@@ -884,7 +884,7 @@ close_port() {
 		iptables -D INPUT -p tcp --dport $port -j ACCEPT 2>/dev/null
 		iptables -D INPUT -p udp --dport $port -j ACCEPT 2>/dev/null
 
-		# Add a shutdown rule
+		# Add shutdown rule
 		if ! iptables -C INPUT -p tcp --dport $port -j DROP 2>/dev/null; then
 			iptables -I INPUT 1 -p tcp --dport $port -j DROP
 		fi
@@ -5007,7 +5007,7 @@ fetch_github_ssh_keys() {
 	local base_dir="${2:-$HOME}"
 
 	echo "Before proceeding, make sure you have added your SSH public key to your GitHub account:"
-	echo "1. Login${gh_https_url}github.com/settings/keys"
+	echo "1. Log in${gh_https_url}github.com/settings/keys"
 	echo "2. Click New SSH key or Add SSH key"
 	echo "3. Title can be filled in as desired (for example: Home Laptop 2026)"
 	echo "4. Paste the contents of the local public key (usually the entire contents of ~/.ssh/id_ed25519.pub or id_rsa.pub) into the Key field"
@@ -6812,7 +6812,7 @@ disk_manager() {
 	send_stats "Hard disk management function"
 	while true; do
 		clear
-		echo "Hard drive partition management"
+		echo "Hard disk partition management"
 		echo -e "${gl_huang}This feature is under internal testing and should not be used in a production environment.${gl_bai}"
 		echo "------------------------"
 		list_partitions
@@ -7019,7 +7019,7 @@ run_task() {
 	else
 		echo "Sync failed! Please check the following:"
 		echo "1. Is the network connection normal?"
-		echo "2. Is the remote host accessible?"
+		echo "2. Whether the remote host is accessible"
 		echo "3. Is the authentication information correct?"
 		echo "4. Do the local and remote directories have correct access permissions?"
 	fi
@@ -7710,7 +7710,7 @@ docker_ssh_migration() {
 				local VOL_ARGS=""
 				for path in $VOL_PATHS; do VOL_ARGS+="-v $path:$path "; done
 
-				# Mirror
+				# mirror
 				local IMAGE
 				IMAGE=$(jq -r '.[0].Config.Image' "$inspect_file")
 
@@ -8238,7 +8238,7 @@ linux_test() {
 	  echo -e "${gl_kjlan}14.  ${gl_bai}nxtrace fast backhaul test script"
 	  echo -e "${gl_kjlan}15.  ${gl_bai}nxtrace specifies IP backhaul test script"
 	  echo -e "${gl_kjlan}16.  ${gl_bai}ludashi2020 three network line test"
-	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc multi-function speed test script"
+	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc multifunctional speed test script"
 	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality network quality check script${gl_huang}★${gl_bai}"
 
 	  echo -e "${gl_kjlan}------------------------"
@@ -10070,7 +10070,7 @@ moltbot_menu() {
 			# 2. Check whether it is already in the list and disabled (the most common case)
 			if echo "$plugin_list" | grep -qW "$plugin_id" && echo "$plugin_list" | grep "$plugin_id" | grep -q "disabled"; then
 				echo "💡 Plugin [$plugin_id] Pre-installed, activating..."
-				openclaw plugins enable "$plugin_id" && echo "✅Activation successful" || echo "❌ Activation failed"
+				openclaw plugins enable "$plugin_id" && echo "✅ 激活成功" || echo "❌ Activation failed"
 
 			# 3. Check whether the system physical directory exists
 			elif [ -d "/usr/lib/node_modules/openclaw/extensions/$plugin_id" ]; then
@@ -10799,7 +10799,7 @@ while true; do
 			check_docker_image_update $docker_name
 
 			clear
-			echo -e "postal service$check_docker $update_status"
+			echo -e "postal services$check_docker $update_status"
 			echo "poste.io is an open source mail server solution,"
 			echo "Video introduction: https://www.bilibili.com/video/BV1wv421C71t?t=0.1"
 
@@ -14269,7 +14269,7 @@ linux_work() {
 	  clear
 	  send_stats "Backend workspace"
 	  echo -e "Backend workspace"
-	  echo -e "The system will provide you with a workspace that can run permanently in the background, which you can use to perform long-term tasks."
+	  echo -e "系统将为你提供可以后台常驻运行的工作区，你可以用来执行长时间的任务"
 	  echo -e "Even if you disconnect SSH, the tasks in the workspace will not be interrupted, and the tasks will remain in the background."
 	  echo -e "${gl_huang}hint:${gl_bai}After entering the workspace, use Ctrl+b and then press d alone to exit the workspace!"
 	  echo -e "${gl_kjlan}------------------------"
@@ -16319,7 +16319,7 @@ run_commands_on_servers() {
 		local username=${SERVER_ARRAY[i+3]}
 		local password=${SERVER_ARRAY[i+4]}
 		echo
-		echo -e "${gl_huang}connect to$name ($hostname)...${gl_bai}"
+		echo -e "${gl_huang}Connect to$name ($hostname)...${gl_bai}"
 		# sshpass -p "$password" ssh -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 		sshpass -p "$password" ssh -t -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 	done
@@ -16709,7 +16709,7 @@ done
 
 
 k_info() {
-send_stats "k command reference examples"
+send_stats "k command reference use case"
 echo "-------------------"
 echo "Video introduction: https://www.bilibili.com/video/BV1ib421E7it?t=0.1"
 echo "The following is a reference use case for the k command:"
