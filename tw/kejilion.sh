@@ -119,7 +119,7 @@ UserLicenseAgreement() {
 	clear
 	echo -e "${gl_kjlan}歡迎使用科技lion腳本工具箱${gl_bai}"
 	echo "首次使用腳本，請先閱讀並同意使用者授權協議。"
-	echo "使用者授權協議: https://blog.kejilion.pro/user-license-agreement/"
+	echo "用户许可协议: https://blog.kejilion.pro/user-license-agreement/"
 	echo -e "----------------------"
 	read -e -p "是否同意以上條款？ (y/n):" user_input
 
@@ -547,7 +547,7 @@ while true; do
 			docker restart $(docker ps -q)
 			;;
 		11)
-			send_stats "进入容器"
+			send_stats "進入容器"
 			read -e -p "請輸入容器名稱:" dockername
 			docker exec -it $dockername /bin/sh
 			break_end
@@ -628,7 +628,7 @@ while true; do
 	case $sub_choice in
 		1)
 			send_stats "拉取鏡像"
-			read -e -p "请输入镜像名（多个镜像名请用空格分隔）: " imagenames
+			read -e -p "請輸入鏡像名稱（多個鏡像名稱請以空格分隔）:" imagenames
 			for name in $imagenames; do
 				echo -e "${gl_kjlan}正在取得鏡像:$name${gl_bai}"
 				docker pull $name
@@ -911,7 +911,7 @@ close_port() {
 allow_ip() {
 	local ips=($@)  # 将传入的参数转换为数组
 	if [ ${#ips[@]} -eq 0 ]; then
-		echo "请提供至少一个IP地址或IP段"
+		echo "請提供至少一個IP位址或IP段"
 		return 1
 	fi
 
@@ -1013,7 +1013,7 @@ manage_country_rules() {
 				fi
 
 				if ! wget -q "$download_url" -O "${country_code,,}.zone"; then
-					echo "錯誤：下載$country_code 的 IP 区域文件失败"
+					echo "錯誤：下載$country_code的 IP 區域檔案失敗"
 					continue
 				fi
 
@@ -1112,7 +1112,7 @@ iptables_panel() {
 				  send_stats "開放指定連接埠"
 				  ;;
 			  2)
-				  read -e -p "请输入关闭的端口号: " c_port
+				  read -e -p "請輸入關閉的連接埠號碼:" c_port
 				  close_port $c_port
 				  send_stats "關閉指定連接埠"
 				  ;;
@@ -1464,7 +1464,7 @@ install_ssltls_text() {
 	echo -e "${gl_huang}$yuming私鑰資訊${gl_bai}"
 	cat /etc/letsencrypt/live/$yuming/privkey.pem
 	echo ""
-	echo -e "${gl_huang}证书存放路径${gl_bai}"
+	echo -e "${gl_huang}證書存放路徑${gl_bai}"
 	echo "公鑰: /etc/letsencrypt/live/$yuming/fullchain.pem"
 	echo "私鑰: /etc/letsencrypt/live/$yuming/privkey.pem"
 	echo ""
@@ -1537,7 +1537,7 @@ certs_status() {
 		echo -e "${gl_hong}注意:${gl_bai}證書申請失敗，請檢查以下可能原因並重試："
 		echo -e "1. 網域拼字錯誤 ➠ 請檢查網域名稱輸入是否正確"
 		echo -e "2. DNS解析問題 ➠ 確認網域名稱已正確解析至本伺服器IP"
-		echo -e "3. 网络配置问题 ➠ 如使用Cloudflare Warp等虚拟网络请暂时关闭"
+		echo -e "3. 網路設定問題 ➠ 如使用Cloudflare Warp等虛擬網路請暫時關閉"
 		echo -e "4. 防火牆限制 ➠ 檢查80/443連接埠是否開放，確保驗證可存取"
 		echo -e "5. 申請次數超限 ➠ Let's Encrypt有每週限額(5次/網域/週)"
 		echo -e "6. 國內備案限制 ➠ 中國大陸環境請確認網域是否備案"
@@ -2316,7 +2316,7 @@ check_nginx_compression() {
 
 	local CONFIG_FILE="/home/web/nginx.conf"
 
-	# 检查 zstd 是否开启且未被注释（整行以 zstd on; 开头）
+	# 檢查 zstd 是否開啟且未被註解（整行以 zstd on; 開頭）
 	if grep -qE '^\s*zstd\s+on;' "$CONFIG_FILE"; then
 		zstd_status="zstd壓縮已開啟"
 	else
@@ -3430,7 +3430,7 @@ ldnmp_Proxy() {
 	check_ip_and_get_access_port "$yuming"
 
 	if [ -z "$reverseproxy" ]; then
-		read -e -p "请输入你的反代IP (回车默认本机IP 127.0.0.1): " reverseproxy
+		read -e -p "請輸入你的反代IP (回車預設本機IP 127.0.0.1):" reverseproxy
 		reverseproxy=${reverseproxy:-127.0.0.1}
 	fi
 
@@ -3811,7 +3811,7 @@ ldnmp_web_status() {
 			2)
 				send_stats "克隆站點域名"
 				read -e -p "請輸入舊網域名稱:" oddyuming
-				read -e -p "請輸入新網域:" yuming
+				read -e -p "請輸入新網域名稱:" yuming
 				install_certbot
 				install_ssltls
 				certs_status
@@ -3852,7 +3852,7 @@ ldnmp_web_status() {
 				send_stats "建立關聯站點"
 				echo -e "為現有的站點再關聯一個新網域用於訪問"
 				read -e -p "請輸入現有的網域名稱:" oddyuming
-				read -e -p "請輸入新網域:" yuming
+				read -e -p "請輸入新網域名稱:" yuming
 				install_certbot
 				install_ssltls
 				certs_status
@@ -6033,7 +6033,7 @@ Kernel_optimize() {
 	  echo "3. 網站最佳化模式： 針對網站伺服器進行最佳化，提升並發連線處理能力、回應速度及整體效能。"
 	  echo "4. 直播最佳化模式： 針對直播推流的特殊需求進行最佳化，減少延遲，提升傳輸效能。"
 	  echo "5. 遊戲服最佳化模式： 針對遊戲伺服器進行最佳化，提升並發處理能力與回應速度。"
-	  echo "6. 还原默认设置：       将系统设置还原为默认配置。"
+	  echo "6. 還原預設設定： 將系統設定還原為預設配置。"
 	  echo "--------------------"
 	  echo "0. 返回上一級選單"
 	  echo "--------------------"
@@ -6103,7 +6103,7 @@ update_locale() {
 				locale-gen
 				echo "LANG=${lang}" > /etc/default/locale
 				export LANG=${lang}
-				echo -e "${gl_lv}系统语言已经修改为: $lang重新連線SSH生效。${gl_bai}"
+				echo -e "${gl_lv}系統語言已經修改為:$lang重新連線SSH生效。${gl_bai}"
 				hash -r
 				break_end
 
@@ -6154,7 +6154,7 @@ while true; do
 		  ;;
 	  3)
 		  update_locale "zh_TW.UTF-8" "zh_TW.UTF-8"
-		  send_stats "切換到繁體中文"
+		  send_stats "切换到繁体中文"
 		  ;;
 	  *)
 		  break
@@ -6176,7 +6176,7 @@ else
 	echo "${bianse}" >> ~/.profile
 	# source ~/.profile
 fi
-echo -e "${gl_lv}變更完成。重新連接SSH後可查看變化！${gl_bai}"
+echo -e "${gl_lv}變更完成。重新连接SSH后可查看变化！${gl_bai}"
 
 hash -r
 break_end
@@ -6502,7 +6502,7 @@ add_connection() {
 			echo "請貼上金鑰內容 (貼上完成後按兩次回車)："
 			local password_or_key=""
 			while IFS= read -r line; do
-				# 如果输入为空行且密钥内容已经包含了开头，则结束输入
+				# 如果輸入為空白行且金鑰內容已經包含了開頭，則結束輸入
 				if [[ -z "$line" && "$password_or_key" == *"-----BEGIN"* ]]; then
 					break
 				fi
@@ -7515,7 +7515,7 @@ linux_tools() {
 
 		  32)
 			  clear
-			  send_stats "全部安装（不含游戏和屏保）"
+			  send_stats "全部安裝（不含遊戲和螢幕保護程式）"
 			  install curl wget sudo socat htop iftop unzip tar tmux ffmpeg btop ranger ncdu fzf vim nano git
 			  ;;
 
@@ -7530,7 +7530,7 @@ linux_tools() {
 
 		  41)
 			  clear
-			  read -e -p "请输入安装的工具名（wget curl sudo htop）: " installname
+			  read -e -p "請輸入已安裝的工具名稱（wget curl sudo htop）:" installname
 			  install $installname
 			  send_stats "安裝指定軟體"
 			  ;;
@@ -9680,7 +9680,7 @@ moltbot_menu() {
 		echo "4. 日誌查看"
 		echo "5. 換模型"
 		echo "6. 加新模型API"
-		echo "7.  TG输入连接码"
+		echo "7. TG輸入連接碼"
 		echo "8. 安裝插件（如：飛書）"
 		echo "9. 安裝技能（skills）"
 		echo "10. 編輯主設定文件"
@@ -9823,7 +9823,7 @@ moltbot_menu() {
 		' "$config_file" > "${config_file}.tmp" && mv "${config_file}.tmp" "$config_file"
 
 		if [[ $? -eq 0 ]]; then
-			echo "✅ 已新增 provider:$provider_name"
+			echo "✅ 已加入 provider:$provider_name"
 			echo "📦 模型引用方式:$provider_name/$models_id"
 			echo "🔧 設定預設模型:"
 			echo "    openclaw config patch '{\"agents.defaults.model.primary\": \"$provider_name/$models_id\"}'"
@@ -9966,7 +9966,7 @@ moltbot_menu() {
 			openclaw plugins list
 			echo "----------------------------------------"
 
-			# 輸出推薦的實用外掛程式列表，方便用戶複製
+			# 输出推荐的实用插件列表，便于用户复制
 			echo "建議的實用外掛程式（可直接複製名稱輸入）："
 			echo "feishu # 飛書/Lark 整合 (目前已載入 ✓)"
 			echo "telegram # Telegram 機器人整合 (目前已載入 ✓)"
@@ -10129,7 +10129,7 @@ moltbot_menu() {
 			# 輸出建議的實用技能列表
 			echo "建議的實用技能（可直接複製名稱輸入）："
 			echo "github # 管理 GitHub Issues/PR/CI (gh CLI)"
-			echo "notion             # 操作 Notion 页面、数据库和块"
+			echo "notion # 操作 Notion 頁面、資料庫和區塊"
 			echo "apple-notes # macOS 原生筆記管理 (建立/編輯/搜尋)"
 			echo "apple-reminders # macOS 提醒事項管理 (待辦事項清單)"
 			echo "1password # 自動化讀取和注入 1Password 金鑰"
@@ -10274,7 +10274,7 @@ moltbot_menu() {
 
 		domains=$(openclaw_find_webui_domain)
 		if [ -n "$domains" ]; then
-			echo "網域地址："
+			echo "網域名稱地址："
 			echo "$domains" | while read d; do
 				echo "https://${d}/?token=${token}"
 			done
@@ -10487,7 +10487,7 @@ while true; do
 	  echo -e "${gl_kjlan}97.  ${color97}WireGuard組網(服務端)${gl_kjlan}98.  ${color98}WireGuard組網(客戶端)"
 	  echo -e "${gl_kjlan}99.  ${color99}DSM群暉虛擬機${gl_kjlan}100. ${color100}Syncthing點對點檔案同步工具"
 	  echo -e "${gl_kjlan}-------------------------"
-	  echo -e "${gl_kjlan}101. ${color101}AI影片產生工具${gl_kjlan}102. ${color102}VoceChat多人線上聊天系統"
+	  echo -e "${gl_kjlan}101. ${color101}AI影片生成工具${gl_kjlan}102. ${color102}VoceChat多人線上聊天系統"
 	  echo -e "${gl_kjlan}103. ${color103}Umami網站統計工具${gl_kjlan}104. ${color104}Stream四層代理轉送工具"
 	  echo -e "${gl_kjlan}105. ${color105}思源筆記${gl_kjlan}106. ${color106}Drawnix開源白板工具"
 	  echo -e "${gl_kjlan}107. ${color107}PanSou網盤搜尋${gl_kjlan}108. ${color108}LangBot聊天機器人"
@@ -11923,7 +11923,7 @@ while true; do
 			ip_address
 			echo "已經安裝完成"
 			check_docker_app_ip
-			echo "初始使用者名稱密碼均為: admin"
+			echo "初始使用者名稱密碼皆為: admin"
 		}
 
 		docker_app_update() {
@@ -13238,7 +13238,7 @@ while true; do
 		}
 
 		local docker_describe="Matrix是一個去中心化的聊天協議"
-		local docker_url="官网介绍: https://matrix.org/"
+		local docker_url="官網介紹: https://matrix.org/"
 		local docker_use=""
 		local docker_passwd=""
 		local app_size="1"
@@ -13752,7 +13752,7 @@ while true; do
 
 	  101|moneyprinterturbo)
 		local app_id="101"
-		local app_name="AI影片產生工具"
+		local app_name="AI影片生成工具"
 		local app_text="MoneyPrinterTurbo是一款使用AI大模型合成高清短影片的工具"
 		local app_url="官方網站:${gh_https_url}github.com/harry0703/MoneyPrinterTurbo"
 		local docker_name="moneyprinterturbo"
@@ -14021,7 +14021,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 
 		}
 
-		local docker_describe="是一个适用于个人或小团队的在线网盘程序。"
+		local docker_describe="是一個適用於個人或小型團隊的線上網盤程式。"
 		local docker_url="官網介紹:${gh_https_url}github.com/zfile-dev/zfile"
 		local docker_use=""
 		local docker_passwd=""
@@ -14452,7 +14452,7 @@ linux_work() {
 
 # 智慧切換鏡像來源函數
 switch_mirror() {
-	# 可选参数，默认为 false
+	# 可選參數，預設為 false
 	local upgrade_software=${1:-false}
 	local clean_cache=${2:-false}
 
@@ -15750,7 +15750,7 @@ EOF
 			  echo "TG-bot監控預警功能"
 			  echo "影片介紹: https://youtu.be/vLL-eb3Z_TY"
 			  echo "------------------------------------------------"
-			  echo "您需要設定tg機器人API和接收預警的用戶ID，即可實現本機CPU，內存，硬碟，流量，SSH登入的即時監控預警"
+			  echo "您需要設定tg機器人API和接收預警的使用者ID，即可實現本機CPU，內存，硬碟，流量，SSH登入的即時監控預警"
 			  echo "到達閾值後會向用戶發送預警訊息"
 			  echo -e "${gl_hui}-關於流量，重啟伺服器將重新計算-${gl_bai}"
 			  read -e -p "確定繼續嗎？ (Y/N):" choice
@@ -16603,7 +16603,7 @@ while true; do
 			CheckFirstRun_true
 			yinsiyuanquan2
 			cp -f ~/kejilion.sh /usr/local/bin/k > /dev/null 2>&1
-			echo -e "${gl_lv}腳本已更新至最新版本！${gl_huang}v$sh_v_new${gl_bai}"
+			echo -e "${gl_lv}腳本已更新到最新版本！${gl_huang}v$sh_v_new${gl_bai}"
 			send_stats "腳本已經最新$sh_v_new"
 			break_end
 			~/kejilion.sh
