@@ -1828,7 +1828,7 @@ nginx_waf() {
 		sed -i 's|^\(\s*\)modsecurity on;|\1# modsecurity on;|' /home/web/nginx.conf > /dev/null 2>&1
 		sed -i 's|^\(\s*\)modsecurity_rules_file /etc/nginx/modsec/modsecurity.conf;|\1# modsecurity_rules_file /etc/nginx/modsec/modsecurity.conf;|' /home/web/nginx.conf > /dev/null 2>&1
 	else
-		echo "無効な引数: 'on' または 'off' を使用してください"
+		echo "无效的参数：使用 'on' 或 'off'"
 		return 1
 	fi
 
@@ -1985,7 +1985,7 @@ nginx_br() {
 		sed -i '/brotli_types/,+6 s/^\(\s*\)#\s*/\1/' /home/web/nginx.conf
 
 	elif [ "$mode" == "off" ]; then
-		# ブロトリを閉じる: コメントを追加
+		# 关闭 Brotli：加上注释
 		sed -i 's|^load_module /etc/nginx/modules/ngx_http_brotli_filter_module.so;|# load_module /etc/nginx/modules/ngx_http_brotli_filter_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 		sed -i 's|^load_module /etc/nginx/modules/ngx_http_brotli_static_module.so;|# load_module /etc/nginx/modules/ngx_http_brotli_static_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 
@@ -2111,9 +2111,9 @@ web_security() {
 			  clear
 			  echo -e "服务器网站防御程序 ${check_f2b_status}${gl_lv}${CFmessage}${waf_status}${gl_bai}"
 			  echo "------------------------"
-			  echo "1. 防御プログラムをインストールする"
+			  echo "1. 安装防御程序"
 			  echo "------------------------"
-			  echo "5. SSH 傍受記録の表示 6. Web サイト傍受記録の表示"
+			  echo "5. 查看SSH拦截记录                6. 查看网站拦截记录"
 			  echo "7. 查看防御规则列表               8. 查看日志实时监控"
 			  echo "------------------------"
 			  echo "11. 配置拦截参数                  12. 清除所有拉黑的IP"
@@ -3871,7 +3871,7 @@ ldnmp_web_status() {
 				break_end
 				;;
 			6)
-				send_stats "エラーログを表示する"
+				send_stats "查看错误日志"
 				tail -n 200 /home/web/log/nginx/error.log
 				break_end
 				;;
@@ -3979,7 +3979,7 @@ check_frp_app() {
 if [ -d "/home/frp/" ]; then
 	check_frp="${gl_lv}已安装${gl_bai}"
 else
-	check_frp="${gl_hui}インストールされていません${gl_bai}"
+	check_frp="${gl_hui}未安装${gl_bai}"
 fi
 
 }
@@ -4005,8 +4005,8 @@ donlond_frp() {
 
 generate_frps_config() {
 
-	send_stats "FRPサーバーをインストールする"
-	# ランダムなポートと認証情報を生成する
+	send_stats "安装frp服务端"
+	# 生成随机端口和凭证
 	local bind_port=8055
 	local dashboard_port=8056
 	local token=$(openssl rand -hex 16)
@@ -4027,7 +4027,7 @@ EOF
 
 	donlond_frp frps
 
-	# 生成された情報を出力する
+	# 输出生成的信息
 	ip_address
 	echo "------------------------"
 	echo "客户端部署时需要用的参数"
@@ -4048,7 +4048,7 @@ EOF
 
 configure_frpc() {
 	send_stats "安装frp客户端"
-	read -e -p "外部ネットワークのドッキング IP を入力してください:" server_addr
+	read -e -p "请输入外网对接IP: " server_addr
 	read -e -p "请输入外网对接token: " token
 	echo
 
@@ -5959,13 +5959,13 @@ restore_defaults() {
 	sysctl -w net.ipv4.tcp_tw_reuse=0 2>/dev/null
 	sysctl -w net.ipv4.ip_local_port_range='32768 60999' 2>/dev/null
 
-	echo -e "${gl_lv}キャッシュ管理を復元します...${gl_bai}"
+	echo -e "${gl_lv}还原缓存管理...${gl_bai}"
 	sysctl -w vm.vfs_cache_pressure=100 2>/dev/null
 
 	echo -e "${gl_lv}还原CPU设置...${gl_bai}"
 	sysctl -w kernel.sched_autogroup_enabled=1 2>/dev/null
 
-	echo -e "${gl_lv}他の最適化を元に戻します...${gl_bai}"
+	echo -e "${gl_lv}还原其他优化...${gl_bai}"
 	# 还原透明大页面
 	echo always > /sys/kernel/mm/transparent_hugepage/enabled
 	# 还原 NUMA balancing
@@ -6010,7 +6010,7 @@ optimize_web_server() {
 	echo -e "${gl_lv}其他优化...${gl_bai}"
 	# 禁用透明大页面，减少延迟
 	echo never > /sys/kernel/mm/transparent_hugepage/enabled
-	# NUMA バランシングを無効にする
+	# 禁用 NUMA balancing
 	sysctl -w kernel.numa_balancing=0 2>/dev/null
 
 
@@ -6022,13 +6022,13 @@ Kernel_optimize() {
 	while true; do
 	  clear
 	  send_stats "Linux内核调优管理"
-	  echo "Linuxシステムのカーネルパラメータの最適化"
+	  echo "Linux系统内核参数优化"
 	  echo "视频介绍: https://www.bilibili.com/video/BV1Kb421J7yg?t=0.1"
 	  echo "------------------------------------------------"
 	  echo "提供多种系统参数调优模式，用户可以根据自身使用场景进行选择切换。"
 	  echo -e "${gl_huang}提示: ${gl_bai}生产环境请谨慎使用！"
 	  echo "--------------------"
-	  echo "1. ハイパフォーマンス最適化モード: システムのパフォーマンスを最大化し、ファイル記述子、仮想メモリ、ネットワーク設定、キャッシュ管理、CPU 設定を最適化します。"
+	  echo "1. 高性能优化模式：     最大化系统性能，优化文件描述符、虚拟内存、网络设置、缓存管理和CPU设置。"
 	  echo "2. 均衡优化模式：       在性能与资源消耗之间取得平衡，适合日常使用。"
 	  echo "3. 网站优化模式：       针对网站服务器进行优化，提高并发连接处理能力、响应速度和整体性能。"
 	  echo "4. 直播优化模式：       针对直播推流的特殊需求进行优化，减少延迟，提高传输性能。"
@@ -6707,7 +6707,7 @@ mount_partition() {
 	# 写入 /etc/fstab
 	echo "UUID=$UUID $MOUNT_POINT $FSTYPE defaults,nofail 0 2" >> /etc/fstab
 
-	echo "永続的なマウントを実現するために /etc/fstab に書き込まれます"
+	echo "已写入 /etc/fstab，实现持久化挂载"
 }
 
 
@@ -6716,7 +6716,7 @@ unmount_partition() {
 	send_stats "卸载分区"
 	read -e -p "请输入要卸载的分区名称（例如 sda1）: " PARTITION
 
-	# パーティションがマウントされているかどうかを確認する
+	# 检查分区是否已经挂载
 	MOUNT_POINT=$(lsblk -o MOUNTPOINT | grep -w "$PARTITION")
 	if [ -z "$MOUNT_POINT" ]; then
 		echo "分区未挂载！"
@@ -6925,7 +6925,7 @@ add_task() {
 
 # 删除任务
 delete_task() {
-	send_stats "同期タスクの削除"
+	send_stats "删除同步任务"
 	read -e -p "请输入要删除的任务编号: " num
 
 	local task=$(sed -n "${num}p" "$CONFIG_FILE")
@@ -7418,7 +7418,7 @@ linux_tools() {
 			  clear
 			  ncdu
 			  cd ~
-			  send_stats "ncdu をインストールする"
+			  send_stats "安装ncdu"
 			  ;;
 			14)
 			  clear
@@ -8089,7 +8089,7 @@ linux_docker() {
 				  echo "卷操作"
 				  echo "------------------------"
 				  echo "1. 创建新卷"
-				  echo "2. 指定したボリュームを削除します"
+				  echo "2. 删除指定卷"
 				  echo "3. 删除所有卷"
 				  echo "------------------------"
 				  echo "0. 返回上一级选单"
@@ -8113,7 +8113,7 @@ linux_docker() {
 						  ;;
 
 					   3)
-						  send_stats "すべてのボリュームを削除する"
+						  send_stats "删除所有卷"
 						  read -e -p "$(echo -e "${gl_hong}注意: ${gl_bai}确定删除所有未使用的卷吗？(Y/N): ")" choice
 						  case "$choice" in
 							[Yy])
@@ -8122,7 +8122,7 @@ linux_docker() {
 							[Nn])
 							  ;;
 							*)
-							  echo "選択が無効です。Y または N を入力してください。"
+							  echo "无效的选择，请输入 Y 或 N。"
 							  ;;
 						  esac
 						  ;;
@@ -8222,29 +8222,29 @@ linux_test() {
 	while true; do
 	  clear
 	  # send_stats "测试脚本合集"
-	  echo -e "テストスクリプト集"
+	  echo -e "测试脚本合集"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}IPおよびロック解除ステータスの検出"
+	  echo -e "${gl_kjlan}IP及解锁状态检测"
 	  echo -e "${gl_kjlan}1.   ${gl_bai}ChatGPT 解锁状态检测"
-	  echo -e "${gl_kjlan}2.   ${gl_bai}リージョンストリーミングメディアロック解除テスト"
-	  echo -e "${gl_kjlan}3.   ${gl_bai}Yeawu ストリーミング メディアのロック解除の検出"
-	  echo -e "${gl_kjlan}4.   ${gl_bai}xykt IP 品質チェック スクリプト${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}2.   ${gl_bai}Region 流媒体解锁测试"
+	  echo -e "${gl_kjlan}3.   ${gl_bai}yeahwu 流媒体解锁检测"
+	  echo -e "${gl_kjlan}4.   ${gl_bai}xykt IP质量体检脚本 ${gl_huang}★${gl_bai}"
 
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}网络线路测速"
 	  echo -e "${gl_kjlan}11.  ${gl_bai}besttrace 三网回程延迟路由测试"
 	  echo -e "${gl_kjlan}12.  ${gl_bai}mtr_trace 三网回程线路测试"
-	  echo -e "${gl_kjlan}13.  ${gl_bai}超高速トリプルネットワーク速度テスト"
-	  echo -e "${gl_kjlan}14.  ${gl_bai}nxtrace 高速バックホール テスト スクリプト"
+	  echo -e "${gl_kjlan}13.  ${gl_bai}Superspeed 三网测速"
+	  echo -e "${gl_kjlan}14.  ${gl_bai}nxtrace 快速回程测试脚本"
 	  echo -e "${gl_kjlan}15.  ${gl_bai}nxtrace 指定IP回程测试脚本"
 	  echo -e "${gl_kjlan}16.  ${gl_bai}ludashi2020 三网线路测试"
 	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc 多功能测速脚本"
-	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality ネットワーク品質チェック スクリプト${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality 网络质量体检脚本 ${gl_huang}★${gl_bai}"
 
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}ハードウェアパフォーマンステスト"
+	  echo -e "${gl_kjlan}硬件性能测试"
 	  echo -e "${gl_kjlan}21.  ${gl_bai}yabs 性能测试"
-	  echo -e "${gl_kjlan}22.  ${gl_bai}icu/gb5 CPU パフォーマンステストスクリプト"
+	  echo -e "${gl_kjlan}22.  ${gl_bai}icu/gb5 CPU性能测试脚本"
 
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}综合性测试"
@@ -8252,7 +8252,7 @@ linux_test() {
 	  echo -e "${gl_kjlan}32.  ${gl_bai}spiritysdx 融合怪测评 ${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}33.  ${gl_bai}nodequality 融合怪测评 ${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}メインメニューに戻る"
+	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
@@ -8293,7 +8293,7 @@ linux_test() {
 			  ;;
 		  13)
 			  clear
-			  send_stats "超高速トリプルネットワーク速度テスト"
+			  send_stats "Superspeed三网测速"
 			  bash <(curl -Lso- https://git.io/superspeed_uxh)
 			  ;;
 		  14)
@@ -8307,11 +8307,11 @@ linux_test() {
 			  send_stats "nxtrace指定IP回程测试脚本"
 			  echo "可参考的IP列表"
 			  echo "------------------------"
-			  echo "北京電信: 219.141.136.12"
+			  echo "北京电信: 219.141.136.12"
 			  echo "北京联通: 202.106.50.1"
 			  echo "北京移动: 221.179.155.161"
-			  echo "上海電信: 202.96.209.133"
-			  echo "上海ユニコム: 210.22.97.1"
+			  echo "上海电信: 202.96.209.133"
+			  echo "上海联通: 210.22.97.1"
 			  echo "上海移动: 211.136.112.200"
 			  echo "广州电信: 58.60.188.222"
 			  echo "广州联通: 210.21.196.6"
@@ -8349,7 +8349,7 @@ linux_test() {
 
 		  21)
 			  clear
-			  send_stats "yabsパフォーマンステスト"
+			  send_stats "yabs性能测试"
 			  check_swap
 			  curl -sL yabs.sh | bash -s -- -i -5
 			  ;;
@@ -8384,7 +8384,7 @@ linux_test() {
 
 			  ;;
 		  *)
-			  echo "無効な入力です!"
+			  echo "无效的输入!"
 			  ;;
 	  esac
 	  break_end
@@ -8408,10 +8408,10 @@ linux_Oracle() {
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}DD重装系统脚本"
 	  echo -e "${gl_kjlan}4.   ${gl_bai}R探长开机脚本"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}ROOTパスワードログインモードを有効にする"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}开启ROOT密码登录模式"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}IPV6恢复工具"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}0.   ${gl_bai}メインメニューに戻る"
+	  echo -e "${gl_kjlan}0.   ${gl_bai}返回主菜单"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  read -e -p "请输入你的选择: " sub_choice
 
@@ -8425,13 +8425,13 @@ linux_Oracle() {
 
 				  install_docker
 
-				  # デフォルト値を設定する
+				  # 设置默认值
 				  local DEFAULT_CPU_CORE=1
 				  local DEFAULT_CPU_UTIL="10-20"
 				  local DEFAULT_MEM_UTIL=20
 				  local DEFAULT_SPEEDTEST_INTERVAL=120
 
-				  # CPU コアの数と占有率を入力するようユーザーに求めます。ユーザーが Enter キーを押すと、デフォルト値が使用されます。
+				  # 提示用户输入CPU核心数和占用百分比，如果回车则使用默认值
 				  read -e -p "请输入CPU核心数 [默认: $DEFAULT_CPU_CORE]: " cpu_core
 				  local cpu_core=${cpu_core:-$DEFAULT_CPU_CORE}
 
@@ -8626,7 +8626,7 @@ linux_ldnmp() {
 	echo -e "${gl_huang}35.  ${gl_bai}防护LDNMP环境                     ${gl_huang}36.  ${gl_bai}优化LDNMP环境"
 	echo -e "${gl_huang}37.  ${gl_bai}更新LDNMP环境                     ${gl_huang}38.  ${gl_bai}卸载LDNMP环境"
 	echo -e "${gl_huang}------------------------"
-	echo -e "${gl_huang}0.   ${gl_bai}メインメニューに戻る"
+	echo -e "${gl_huang}0.   ${gl_bai}返回主菜单"
 	echo -e "${gl_huang}------------------------${gl_bai}"
 	read -e -p "请输入你的选择: " sub_choice
 
@@ -8673,7 +8673,7 @@ linux_ldnmp() {
 
 
 	  ldnmp_web_on
-	  echo "データベースアドレス: mysql"
+	  echo "数据库地址: mysql"
 	  echo "数据库名: $dbname"
 	  echo "用户名: $dbuse"
 	  echo "密码: $dbusepasswd"
@@ -8687,7 +8687,7 @@ linux_ldnmp() {
 	  # 可道云桌面
 	  webname="可道云桌面"
 	  send_stats "安装$webname"
-	  echo "導入を開始する$webname"
+	  echo "开始部署 $webname"
 	  add_yuming
 	  repeat_add_yuming
 	  ldnmp_install_status
@@ -9277,7 +9277,7 @@ linux_ldnmp() {
 	  echo -e "[${gl_huang}1/2${gl_bai}] 上传静态源码"
 	  echo "-------------"
 	  echo "目前只允许上传zip格式的源码包，请将源码包放到/home/web/html/${yuming}目录下"
-	  read -e -p "ダウンロード リンクを入力して、ソース コード パッケージをリモートでダウンロードすることもできます。 Enter を直接押して、リモート ダウンロードをスキップします。" url_download
+	  read -e -p "也可以输入下载链接，远程下载源码包，直接回车将跳过远程下载： " url_download
 
 	  if [ -n "$url_download" ]; then
 		  wget "$url_download"
@@ -9343,7 +9343,7 @@ linux_ldnmp() {
 			  scp -P "$TARGET_PORT" -o StrictHostKeyChecking=no "$latest_tar" "root@$remote_ip:/home/"
 			  echo "文件已传送至远程服务器home目录。"
 			else
-			  echo "転送するファイルが見つかりませんでした。"
+			  echo "未找到要传送的文件。"
 			fi
 			break
 			;;
@@ -9472,7 +9472,7 @@ linux_ldnmp() {
 		  echo "------------------------"
 		  echo "5. 更新完整环境"
 		  echo "------------------------"
-		  echo "0. 前のメニューに戻る"
+		  echo "0. 返回上一级选单"
 		  echo "------------------------"
 		  read -e -p "请输入你的选择: " sub_choice
 		  case $sub_choice in
@@ -9545,7 +9545,7 @@ linux_ldnmp() {
 			  docker compose up -d --force-recreate $ldnmp_pods
 			  docker restart $ldnmp_pods > /dev/null 2>&1
 			  send_stats "更新$ldnmp_pods"
-			  echo "更新${ldnmp_pods}仕上げる"
+			  echo "更新${ldnmp_pods}完成"
 
 				  ;;
 			  5)
@@ -9577,7 +9577,7 @@ linux_ldnmp() {
 
 	38)
 		root_use
-		send_stats "LDNMP環境をアンインストールする"
+		send_stats "卸载LDNMP环境"
 		read -e -p "$(echo -e "${gl_hong}强烈建议：${gl_bai}先备份全部网站数据，再卸载LDNMP环境。确定删除所有网站数据吗？(Y/N): ")" choice
 		case "$choice" in
 		  [Yy])
@@ -9601,7 +9601,7 @@ linux_ldnmp() {
 	  ;;
 
 	*)
-		echo "無効な入力です!"
+		echo "无效的输入!"
 	esac
 	break_end
 
@@ -9617,7 +9617,7 @@ linux_ldnmp() {
 moltbot_menu() {
 	local app_id="114"
 
-	send_stats "クロードボット/モルトボットの管理"
+	send_stats "clawdbot/moltbot管理"
 
 	check_openclaw_update() {
 		if ! command -v npm >/dev/null 2>&1; then
@@ -9640,7 +9640,7 @@ moltbot_menu() {
 		if [ "$local_version" != "$remote_version" ]; then
 			echo "${gl_huang}检测到新版本:$remote_version${gl_bai}"
 		else
-			echo "${gl_lv}現在のバージョンは最新です:$local_version${gl_bai}"
+			echo "${gl_lv}当前版本已是最新:$local_version${gl_bai}"
 		fi
 	}
 
@@ -9686,7 +9686,7 @@ moltbot_menu() {
 		echo "10. 编辑主配置文件"
 		echo "11. 配置向导"
 		echo "12. 健康检测与修复"
-		echo "13. WebUI へのアクセスと設定"
+		echo "13. WebUI访问与设置"
 		echo "--------------------"
 		echo "14. 更新"
 		echo "15. 卸载"
@@ -9768,7 +9768,7 @@ moltbot_menu() {
 		echo "Base URL: $base_url"
 		echo "API Key: ${api_key:0:8}****"
 
-		# パラメータをチェックする
+		# 检查参数
 		if [[ -z "$provider_name" || -z "$models_id" || -z "$base_url" || -z "$api_key" ]]; then
 			echo "错误：参数不能为空！"
 			echo "用法: add-openclaw-provider <provider> <model-id> <base-url> <api-key>"
@@ -9827,7 +9827,7 @@ moltbot_menu() {
 			echo "📦 模型引用方式: $provider_name/$models_id"
 			echo "🔧 设置默认模型:"
 			echo "    openclaw config patch '{\"agents.defaults.model.primary\": \"$provider_name/$models_id\"}'"
-			echo "🔄 ゲートウェイを再起動します。"
+			echo "🔄 重启网关:"
 			echo "    openclaw gateway restart"
 		else
 			echo "❌ 添加失败，检查 jq 语法"
@@ -9873,7 +9873,7 @@ moltbot_menu() {
 		done
 
 		# Base URL
-		read -erp "ベース URL (例: https://api.xxx.com/v1) を入力してください:" base_url
+		read -erp "请输入 Base URL (如: https://api.xxx.com/v1): " base_url
 		while [[ -z "$base_url" ]]; do
 			echo "❌ Base URL 不能为空"
 			read -erp "请输入 Base URL: " base_url
@@ -9884,21 +9884,21 @@ moltbot_menu() {
 		echo
 		while [[ -z "$api_key" ]]; do
 			echo "❌ API Key 不能为空"
-			read -rsp "API キーを入力してください:" api_key
+			read -rsp "请输入 API Key: " api_key
 			echo
 		done
 
 		echo
-		echo "====== 確認 ======"
+		echo "====== 确认信息 ======"
 		echo "Provider : $provider_name"
 		echo "Model ID : $model_id"
 		echo "Base URL : $base_url"
 		echo "API Key  : ${api_key:0:8}****"
 		echo "======================"
 
-		read -erp "追加を確認しますか? (y/N):" confirm
+		read -erp "确认添加？(y/N): " confirm
 		if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-			echo "❎ キャンセルされました"
+			echo "❎ 已取消"
 			return 1
 		fi
 
@@ -9915,12 +9915,12 @@ moltbot_menu() {
 
 
 	change_model() {
-		send_stats "機種変更"
+		send_stats "换模型"
 
 		while true; do
 			clear
-			echo "---モデル管理---"
-			echo "すべてのモデル:"
+			echo "--- 模型管理 ---"
+			echo "所有模型:"
 			openclaw models list --all
 			echo "----------------"
 			echo "当前模型:"
@@ -9935,7 +9935,7 @@ moltbot_menu() {
 
 			fi
 
-			# 2. 入力が空であることを確認します
+			# 2. 验证输入是否为空
 			if [ -z "$model" ]; then
 				echo "错误：模型名称不能为空。请重试。"
 				echo "" # 换行美化
@@ -9962,7 +9962,7 @@ moltbot_menu() {
 			echo "========================================"
 			echo "            插件管理 (安装)            "
 			echo "========================================"
-			echo "現在インストールされているプラ​​グイン:"
+			echo "当前已安装插件:"
 			openclaw plugins list
 			echo "----------------------------------------"
 
@@ -9978,7 +9978,7 @@ moltbot_menu() {
 			echo "@openclaw/discord     # Discord 频道自动化管理"
 			echo "@openclaw/nostr       # Nostr 协议：隐私安全加密聊天"
 			echo "lobster               # 审批工作流：带有人工干预的自动任务"
-			echo "Memory-lancedb # 長期記憶強化: ベクトルデータベースに基づく正確な記憶"
+			echo "memory-lancedb        # 长期记忆增强：基于向量数据库的精准召回"
 			echo "copilot-proxy         # GitHub Copilot 代理接入增强"
 			echo "----------------------------------------"
 
@@ -10053,7 +10053,7 @@ moltbot_menu() {
 			echo "⚙️ 功能扩展:"
 			echo "  - [lobster]      	# 审批流 (带人工确认)"
 			echo "  - [voice-call]   	# 语音通话能力"
-			echo "  - [nostr]        	# 加密隐私聊天"
+			echo "- [nostr] # 暗号化されたプライベートチャット"
 			echo "--------------------------------------------------------"
 
 			read -e -p "请输入插件 ID（输入 0 退出）： " raw_input
@@ -10413,7 +10413,7 @@ while true; do
 
 	if [ -z "$sub_choice" ]; then
 	  clear
-	  echo -e "アプリケーション市場"
+	  echo -e "应用市场"
 	  echo -e "${gl_kjlan}-------------------------"
 
 	  local app_numbers=$([ -f /home/docker/appno.txt ] && cat /home/docker/appno.txt || echo "")
@@ -10469,22 +10469,22 @@ while true; do
 	  echo -e "${gl_kjlan}67.  ${color67}ddns-go动态DNS管理工具 ${gl_huang}★${gl_bai}            ${gl_kjlan}68.  ${color68}AllinSSL证书管理平台"
 	  echo -e "${gl_kjlan}69.  ${color69}SFTPGo文件传输工具                  ${gl_kjlan}70.  ${color70}AstrBot聊天机器人框架"
 	  echo -e "${gl_kjlan}-------------------------"
-	  echo -e "${gl_kjlan}71.  ${color71}Navidrome私有音乐服务器             ${gl_kjlan}72.  ${color72}bitwarden パスワードマネージャー${gl_huang}★${gl_bai}"
+	  echo -e "${gl_kjlan}71.  ${color71}Navidrome私有音乐服务器             ${gl_kjlan}72.  ${color72}bitwarden密码管理器 ${gl_huang}★${gl_bai}"
 	  echo -e "${gl_kjlan}73.  ${color73}LibreTV私有影视                     ${gl_kjlan}74.  ${color74}MoonTV私有影视"
 	  echo -e "${gl_kjlan}75.  ${color75}Melody音乐精灵                      ${gl_kjlan}76.  ${color76}在线DOS老游戏"
-	  echo -e "${gl_kjlan}77.  ${color77}Thunder オフライン ダウンロード ツール${gl_kjlan}78.  ${color78}PandaWiki インテリジェント文書管理システム"
-	  echo -e "${gl_kjlan}79.  ${color79}Beszel サーバーの監視${gl_kjlan}80.  ${color80}リンクワーデンのブックマーク管理"
+	  echo -e "${gl_kjlan}77.  ${color77}迅雷离线下载工具                    ${gl_kjlan}78.  ${color78}PandaWiki智能文档管理系统"
+	  echo -e "${gl_kjlan}79.  ${color79}Beszel服务器监控                    ${gl_kjlan}80.  ${color80}linkwarden书签管理"
 	  echo -e "${gl_kjlan}-------------------------"
-	  echo -e "${gl_kjlan}81.  ${color81}JitsiMeet ビデオ会議${gl_kjlan}82.  ${color82}gpt-load 高性能 AI 透過プロキシ"
-	  echo -e "${gl_kjlan}83.  ${color83}komariサーバー監視ツール${gl_kjlan}84.  ${color84}Wallos个人财务管理工具"
-	  echo -e "${gl_kjlan}85.  ${color85}イミッチ・ピクチャー・ビデオ・マネージャー${gl_kjlan}86.  ${color86}jellyfin媒体管理系统"
-	  echo -e "${gl_kjlan}87.  ${color87}SyncTV一起看片神器                  ${gl_kjlan}88.  ${color88}Owncast の自己ホスト型ライブ ストリーミング プラットフォーム"
-	  echo -e "${gl_kjlan}89.  ${color89}FileCodeBox ファイルエクスプレス${gl_kjlan}90.  ${color90}matrix去中心化聊天协议"
+	  echo -e "${gl_kjlan}81.  ${color81}JitsiMeet视频会议                   ${gl_kjlan}82.  ${color82}gpt-load高性能AI透明代理"
+	  echo -e "${gl_kjlan}83.  ${color83}komari服务器监控工具                ${gl_kjlan}84.  ${color84}Wallos个人财务管理工具"
+	  echo -e "${gl_kjlan}85.  ${color85}immich图片视频管理器                ${gl_kjlan}86.  ${color86}jellyfin媒体管理系统"
+	  echo -e "${gl_kjlan}87.  ${color87}SyncTV一起看片神器                  ${gl_kjlan}88.  ${color88}Owncast自托管直播平台"
+	  echo -e "${gl_kjlan}89.  ${color89}FileCodeBox文件快递                 ${gl_kjlan}90.  ${color90}matrix去中心化聊天协议"
 	  echo -e "${gl_kjlan}-------------------------"
-	  echo -e "${gl_kjlan}91.  ${color91}gitea プライベート コード リポジトリ${gl_kjlan}92.  ${color92}FileBrowser ファイルマネージャー"
-	  echo -e "${gl_kjlan}93.  ${color93}Dufs のミニマリスト静的ファイル サーバー${gl_kjlan}94.  ${color94}Gopeed高速ダウンロードツール"
-	  echo -e "${gl_kjlan}95.  ${color95}ペーパーレス文書管理プラットフォーム${gl_kjlan}96.  ${color96}2FAuth自托管二步验证器"
-	  echo -e "${gl_kjlan}97.  ${color97}WireGuard组网(服务端)               ${gl_kjlan}98.  ${color98}WireGuard ネットワーキング (クライアント)"
+	  echo -e "${gl_kjlan}91.  ${color91}gitea私有代码仓库                   ${gl_kjlan}92.  ${color92}FileBrowser文件管理器"
+	  echo -e "${gl_kjlan}93.  ${color93}Dufs极简静态文件服务器              ${gl_kjlan}94.  ${color94}Gopeed高速下载工具"
+	  echo -e "${gl_kjlan}95.  ${color95}paperless文档管理平台               ${gl_kjlan}96.  ${color96}2FAuth自托管二步验证器"
+	  echo -e "${gl_kjlan}97.  ${color97}WireGuard组网(服务端)               ${gl_kjlan}98.  ${color98}WireGuard组网(客户端)"
 	  echo -e "${gl_kjlan}99.  ${color99}DSM群晖虚拟机                       ${gl_kjlan}100. ${color100}Syncthing点对点文件同步工具"
 	  echo -e "${gl_kjlan}-------------------------"
 	  echo -e "${gl_kjlan}101. ${color101}AI视频生成工具                      ${gl_kjlan}102. ${color102}VoceChat多人在线聊天系统"
@@ -14034,7 +14034,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 	  110|karakeep)
 		local app_id="110"
 		local app_name="karakeep书签管理"
-		local app_text="は、データ蓄積者向けに設計された人工知能機能を備えた自己ホスト型ブックマーク アプリです。"
+		local app_text="是一款可自行托管的书签应用，带有人工智能功能，专为数据囤积者而设计。"
 		local app_url="官方网站: ${gh_https_url}github.com/karakeep-app/karakeep"
 		local docker_name="docker-web-1"
 		local docker_port="8110"
@@ -14332,7 +14332,7 @@ linux_work() {
 			  clear
 			  install tmux
 			  local SESSION_NAME="work5"
-			  send_stats "ワークスペースの開始$SESSION_NAME"
+			  send_stats "启动工作区$SESSION_NAME"
 			  tmux_run
 			  ;;
 		  6)
@@ -14581,7 +14581,7 @@ net_menu() {
 		echo "=========== 网卡管理菜单 ==========="
 		echo "1. 启用网卡"
 		echo "2. 禁用网卡"
-		echo "3. ネットワークカードの詳細を表示する"
+		echo "3. 查看网卡详细信息"
 		echo "4. 刷新网卡信息"
 		echo "0. 返回上一级选单"
 		echo "===================================="
@@ -14943,7 +14943,7 @@ linux_Settings() {
 	  echo -e "${gl_kjlan}3.   ${gl_bai}用户密码登录模式                   ${gl_kjlan}4.   ${gl_bai}安装Python指定版本"
 	  echo -e "${gl_kjlan}5.   ${gl_bai}开放所有端口                       ${gl_kjlan}6.   ${gl_bai}修改SSH连接端口"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}优化DNS地址                        ${gl_kjlan}8.   ${gl_bai}一键重装系统 ${gl_huang}★${gl_bai}"
-	  echo -e "${gl_kjlan}9.   ${gl_bai}禁用ROOT账户创建新账户             ${gl_kjlan}10.  ${gl_bai}切换优先ipv4/ipv6"
+	  echo -e "${gl_kjlan}9.   ${gl_bai}禁用ROOT账户创建新账户             ${gl_kjlan}10.  ${gl_bai}スイッチ優先度 ipv4/ipv6"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}11.  ${gl_bai}查看端口占用状态                   ${gl_kjlan}12.  ${gl_bai}修改虚拟内存大小"
 	  echo -e "${gl_kjlan}13.  ${gl_bai}用户管理                           ${gl_kjlan}14.  ${gl_bai}用户/密码生成器"
@@ -15109,7 +15109,7 @@ EOF
 				local current_port=$(grep -E '^ *Port [0-9]+' /etc/ssh/sshd_config | awk '{print $2}')
 
 				# 打印当前的 SSH 端口号
-				echo -e "現在の SSH ポート番号は次のとおりです。${gl_huang}$current_port ${gl_bai}"
+				echo -e "当前的 SSH 端口号是:  ${gl_huang}$current_port ${gl_bai}"
 
 				echo "------------------------"
 				echo "端口号范围1到65535之间的数字。（输入0退出）"
@@ -15425,7 +15425,7 @@ EOF
 				echo "欧洲"
 				echo "11. 英国伦敦时间             12. 法国巴黎时间"
 				echo "13. 德国柏林时间             14. 俄罗斯莫斯科时间"
-				echo "15. ユトレヒト時間、オランダ 16. マドリッド時間、スペイン"
+				echo "15. 荷兰尤特赖赫特时间       16. 西班牙马德里时间"
 				echo "------------------------"
 				echo "美洲"
 				echo "21. 美国西部时间             22. 美国东部时间"
@@ -17017,7 +17017,7 @@ else
 					fetch_remote_ssh_keys "$1"
 					;;
 				ssh-rsa*|ssh-ed25519*|ssh-ecdsa* )
-					send_stats "公開鍵を直接インポートする"
+					send_stats "公钥直接导入"
 					import_sshkey "$1"
 					;;
 				* )
